@@ -1,0 +1,14 @@
+{% extends 'flatpages/default.html' %}
+{% load cache %}
+
+{% block content %}
+{% cache 10 title %}
+    <h1>Статья</h1>
+{% endcache %}
+<hr>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save" />
+</form>
+{% endblock content %}

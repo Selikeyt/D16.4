@@ -1,0 +1,21 @@
+{% extends 'flatpages/default.html' %}
+
+{% load news_filters %}
+{% load cache %}
+
+{% cache 60 post %}
+    {% block title %}
+        Post
+    {% endblock title %}
+{% endcache %}
+
+{% cache 20 post %}
+    {% block content %}
+        <h1>{{ post }}</h1>
+        <h3>{{ post.post_time_in | date:'M d Y' }}</h3>
+        <h4>{{ post.post_text | cenzor }}</h4>
+    {% endblock content %}
+{% endcache %}
+
+
+

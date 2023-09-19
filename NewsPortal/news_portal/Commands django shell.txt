@@ -1,0 +1,110 @@
+User.objects.create_user('Nick')
+
+User.objects.create_user('Mary')
+
+User_1 = User('Nick')
+User_2 = User('Mary')
+
+Category.objects.create(name='Science news')
+category_1 = Category(pk=1)
+category_2 = Category.objects.create(name='Business news')
+category_3 = Category.objects.create(name='Art news')
+category_4 = Category.objects.create(name='Political news')
+category_5 = Category.objects.create(name='Social news')
+category_6 = Category.objects.create(name='Space exploration')
+
+
+u1=User.objects.get(pk=1)
+Author.objects.create(user=u1)
+
+u2=User.objects.get(pk=2)p
+Author.objects.create(user=u2)
+
+Post.objects.create(author=Author.objects.get(pk=1), type='AC',title='Supernova reveals rare pair of stars', post_text='An un
+usual star system created more of a fizz and less od a bang when it exploded in a supernova')
+
+Post.objects.create(author=Author.objects.get(pk=2), type='NS', title='Croatia uses the euro', post_text='On January 2023 Cro
+atia starts to use the euro. With the single currency, the country hopes to make its economy stronger and more stable.')
+
+Post.objects.create(author=Author.objects.get(pk=1), type='AC', title='Could the four-day workweek really be?', post_text='In
+ the US and Ireland a six-month trial among 33 volunteer companies in 2022 showed a positive impact on company performance.')
+
+p1 = Post.objects.get(pk=1)
+c1 = Category.objects.get(pk=1)
+p1.category.add(c1)
+p2 = Post.objects.get(id=2)
+c2 = Category.objects.get(id=2)
+c4 = Category.objects.get(pk=4)
+p2.category.add(c2, c4)
+p1.category.add(c1, c6)
+p3 = Post.objects.get(pk=3)
+c5 = Category.objects.get(name='Social news')
+p3.category.add(c5, c2)
+Comment.objects.create(post=Post.objects.get(id=1), user=User.objects.get(pk=1), comment_text='Interesting news')
+Comment.objects.create(post=Post.objects.get(id=2), user=User.objects.get(pk=2), comment_text='Good news, it is comfortable for torists as well')
+Comment.objects.create(post=Post.objects.get(id=3), user=User.objects.get(pk=1),comment_text="I'd like to work  four-day workweek, but it's not real for now")
+Comment.objects.create(post=Post.objects.get(id=3), user=User.objects.get(pk=1),comment_text="Good news")
+
+p1.like()
+p1.like()
+p1.like()
+p2.like()
+p2.like()
+p2.dislike()
+p3.like()
+p3.like()
+p3.like()
+p3.like()
+p3.dislike()
+p3.like()
+p3.like()
+
+com1 = Comment.objects.get(id=1)
+com2 = Comment.objects.get(id=2)
+com4 = Comment.objects.get(id=4)
+com5 = Comment.objects.get(id=5)
+
+com1.like()
+com1.like()
+com1.dislike()
+
+com2.like()
+com2.dislike()
+com2.like()
+
+com4.like()
+com4.like()
+com4.like()
+com4.like()
+
+com5.like()
+com5.like()
+com5.dislike()
+
+a1 = Author.objects.get(id=1)
+a2 = Author.objects.get(id=2)
+
+a1.update_rating()
+a2.update_rating()
+
+Author.objects.all().order_by('-user_rating').values('user','user_rating').first()
+
+
+Author.objects.all().order_by('-user_rating').first().user.username
+
+Author.objects.all().order_by('-user_rating').first().user_rating
+
+или одной строкой Author.objects.all().order_by('-user_rating').values('user__username','user_rating').first()
+
+Post.objects.order_by('-post_rating').values('post_time_in', 'post_rating', 'title').first()
+Post.objects.order_by('-post_rating').first().author.user
+или Post.objects.order_by('-post_rating').values('post_time_in', 'author__user__username','post_rating', 'title').first()
+
+Post.objects.order_by('-post_rating').first().preview()
+
+best_post = Post.objects.order_by('-post_rating').first()
+best_post.comment_set.all().values('comment_time_in', 'user__username', 'comment_rating', 'comment_text')
+
+
+
+
